@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 /** 
  * Represents an individual table content element. 
@@ -15,8 +15,14 @@ export interface TableContentIndvidual extends TableElementBase {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: any;
     };
+    /** Text color of the element. */
+    color?: string;
+    /** Background color of the element. */
+    background?: string;
     /** Callback function triggered when the element is clicked. */
-    onClick?: () => void;
+    onClick?: (event: MouseEvent<HTMLTableCellElement>) => void;
+    /** Text alignment for the content: "left", "center", or "right". */
+    align?: "left" | "center" | "right";
 }
 
 /**
@@ -88,6 +94,4 @@ export interface TableRowType {
      * - `onClick`: Callback function triggered when the action is clicked.
      */
     actions?: Array<{ label: string; icon?: ReactNode; onClick: (element: TableContentIndvidual) => void }>;
-    /** Indicates whether the row is indexed. */
-    indexed?: boolean
 }

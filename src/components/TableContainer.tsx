@@ -88,7 +88,9 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
                   sortActionInject={sortItemsHandler}
                 />
               ))}
-              {rows.some((row) => row.actions !== null) && (
+              {rows.some(
+                (row) => row.actions !== null && (row.actions || []).length > 0
+              ) && (
                 <TableHeaderItem
                   index={-1}
                   content={{ Label: "Actions" }}
@@ -128,7 +130,9 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
                   sortActionInject={sortItemsHandler}
                 />
               ))}
-              {rows.some((row) => row.actions !== null) && (
+              {rows.some(
+                (row) => row.actions !== null && (row.actions || []).length > 0
+              ) && (
                 <TableHeaderItem
                   index={-1}
                   content={{ Label: "Actions" }}
@@ -165,7 +169,12 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
               ))
             ) : (
               <tr>
-                <td colSpan={headers.length}>No data</td>
+                <td
+                  colSpan={headers.length}
+                  style={{ textAlign: "center", color: headers[0].color }}
+                >
+                  No data
+                </td>
               </tr>
             )}
           </tbody>
