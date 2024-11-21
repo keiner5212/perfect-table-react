@@ -29,27 +29,54 @@ const TableRowItem: FunctionComponent<
   }
   const [actionsVisible, setActionsVisible] = useState(false);
   return (
-    <tr className={hoverEffect && hoverType === "row" ? "hover" : ""}>
+    <tr
+      className={
+        "table-row " +
+        (hoverEffect && hoverType === "row" ? "hover-effect" : "")
+      }
+    >
       {indexed && (
         <td
-          className={hoverEffect && hoverType === "individual" ? "hover" : ""}
+          className={
+            "table-index-col " +
+            (hoverEffect && hoverType === "individual" ? "hover-effect" : "")
+          }
+          style={{
+            color: columns[0].color,
+            textAlign: columns[0].align,
+          }}
         >
-          {index}
+          <span
+            style={{
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            {index + 1}
+          </span>
         </td>
       )}
       {columns.map((column, index) => {
         return (
           <td
-            className={hoverEffect && hoverType === "individual" ? "hover" : ""}
+            className={
+              hoverEffect && hoverType === "individual" ? "hover-effect" : ""
+            }
             key={index + id + "table-item" + generateRamdomString(5)}
             style={{
               color: column.color,
-              backgroundColor: column.background,
               textAlign: column.align,
             }}
             onClick={column.onClick}
           >
-            {column.content.Label}
+            <span
+              style={{
+                width: "100%",
+                textAlign: column.align || "left",
+              }}
+            >
+              {column.content.Label}
+            </span>
           </td>
         );
       })}

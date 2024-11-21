@@ -1,0 +1,38 @@
+th.table-header-item {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  height: 2.25rem;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.2);
+
+  & span:nth-child(2) {
+    position: absolute;
+    right: 0.3125rem;
+    top: calc(50% - 0.6rem);
+    height: fit-content;
+    width: fit-content;
+    display: block;
+    background-color: #8d8d8d;
+    border-radius: 0.5rem;
+  }
+
+  & span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 18.75rem;
+    user-select: none;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    & svg {
+      height: 0.85rem;
+      width: 0.85rem;
+    }
+  }
+}
+
+.table-header-item.has-sort {
+  cursor: pointer;
+}

@@ -24,6 +24,10 @@ interface TableContainerProps {
   indexed?: boolean;
   loading?: boolean;
   loader?: ReactNode;
+  maxHeight?: string;
+  indexColHeaderColor?: string;
+  indexColHeaderBackgroundColor?: string;
+  roundedCorners?: boolean;
 }
 
 export const TableContainer: FunctionComponent<TableContainerProps> = ({
@@ -33,8 +37,31 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
   indexed,
   loading,
   loader,
+  maxHeight,
+  indexColHeaderColor,
+  indexColHeaderBackgroundColor,
+  roundedCorners,
 }) => {
   const [rowsOrdered, setRowsOrdered] = useState<TableRowType[]>(rows);
+
+  const sortItemsHandler = (
+    callback: (
+      dataA: TableContentIndvidual[],
+      dataB: TableContentIndvidual[]
+    ) => number,
+    mode: "asc" | "desc" | "none" = "none"
+  ) => {
+    if (mode === "none") {
+      setRowsOrdered([...rows]);
+    } else {
+      const sortedRows = [...rows].sort((a, b) => {
+        if (mode === "asc") return callback(b.columns, a.columns);
+        if (mode === "desc") return callback(a.columns, b.columns);
+        return 0;
+      });
+      setRowsOrdered(sortedRows);
+    }
+  };
 
   if (!headers || !rows) return <>No data</>;
   if (headers.length === 0) return <>Empty arrays of headers</>;
@@ -52,110 +79,59 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
   )
     return <>Not all rows have the same number of columns</>;
 
-  const sortItemsHandler = (
-    callback: (
-      dataA: TableContentIndvidual[],
-      dataB: TableContentIndvidual[]
-    ) => number,
-    mode: "asc" | "desc" | "none" = "none"
-  ) => {
-    if (mode === "none") setRowsOrdered(rows);
-    if (mode === "asc")
-      setRowsOrdered(rows.sort((a, b) => callback(b.columns, a.columns)));
-    if (mode === "desc")
-      setRowsOrdered(rows.sort((a, b) => callback(a.columns, b.columns)));
-  };
-
   return (
-    <div className="table-container">
-      {isSticky && (
-        <table className="table-header">
-          <thead>
-            <tr>
-              {indexed && (
-                <TableHeaderItem
-                  index={-1}
-                  content={{ Label: "#" }}
-                  sortActionInject={sortItemsHandler}
-                  sortable={false}
-                />
-              )}
-              {headers.map((header, index) => (
-                <TableHeaderItem
-                  index={index}
-                  key={index}
-                  {...header}
-                  sortActionInject={sortItemsHandler}
-                />
-              ))}
-              {rows.some(
-                (row) => row.actions !== null && (row.actions || []).length > 0
-              ) && (
-                <TableHeaderItem
-                  index={-1}
-                  content={{ Label: "Actions" }}
-                  sortActionInject={sortItemsHandler}
-                  hoverEffect={headers[0].hoverEffect}
-                  iconPosition={headers[0].iconPosition}
-                  icon={<SlOptionsVertical />}
-                  color={headers[0].color}
-                  background={headers[0].background}
-                  align={headers[0].align}
-                  tooltip={"Actions"}
-                  bold={headers[0].bold}
-                  sortable={false}
-                />
-              )}
-            </tr>
-          </thead>
-        </table>
-      )}
-      <table className="table-body">
-        {!isSticky && (
-          <thead>
-            <tr>
-              {indexed && (
-                <TableHeaderItem
-                  index={-1}
-                  content={{ Label: "#" }}
-                  sortActionInject={sortItemsHandler}
-                  sortable={false}
-                />
-              )}
-              {headers.map((header, index) => (
-                <TableHeaderItem
-                  index={index}
-                  key={index}
-                  {...header}
-                  sortActionInject={sortItemsHandler}
-                />
-              ))}
-              {rows.some(
-                (row) => row.actions !== null && (row.actions || []).length > 0
-              ) && (
-                <TableHeaderItem
-                  index={-1}
-                  content={{ Label: "Actions" }}
-                  sortActionInject={sortItemsHandler}
-                  hoverEffect={headers[0].hoverEffect}
-                  iconPosition={headers[0].iconPosition}
-                  icon={<SlOptionsVertical />}
-                  color={headers[0].color}
-                  background={headers[0].background}
-                  align={headers[0].align}
-                  tooltip={"Actions"}
-                  bold={headers[0].bold}
-                  sortable={false}
-                />
-              )}
-            </tr>
-          </thead>
-        )}
+    <div className="table-container" style={{ maxHeight: maxHeight }}>
+      <table className={"table-body" + (roundedCorners ? " rounded-corners" : "")}>
+        <thead>
+          <tr>
+            {indexed && (
+              <TableHeaderItem
+                index={-1}
+                classname="table-index-col"
+                content={{ Label: "#" }}
+                sortActionInject={sortItemsHandler}
+                sortable={false}
+                align="center"
+                isSticky={isSticky}
+                color={indexColHeaderColor}
+                background={indexColHeaderBackgroundColor}
+              />
+            )}
+            {headers.map((header, index) => (
+              <TableHeaderItem
+                index={index}
+                key={index}
+                {...header}
+                sortActionInject={sortItemsHandler}
+                isSticky={isSticky}
+              />
+            ))}
+            {rows.some(
+              (row) => row.actions !== null && (row.actions || []).length > 0
+            ) && (
+              <TableHeaderItem
+                index={-1}
+                content={{ Label: "Actions" }}
+                sortActionInject={sortItemsHandler}
+                hoverEffect={headers[0].hoverEffect}
+                iconPosition={headers[0].iconPosition}
+                icon={<SlOptionsVertical />}
+                color={headers[0].color}
+                background={headers[0].background}
+                align={headers[0].align}
+                tooltip={"Actions"}
+                bold={headers[0].bold}
+                sortable={false}
+                isSticky={isSticky}
+              />
+            )}
+          </tr>
+        </thead>
         {loading ? (
           <>{loader ?? <tr>Loading...</tr>}</>
         ) : (
           <tbody>
-            {rows.length > 0 ? (
+            {rowsOrdered.length > 0 ? (
               rowsOrdered.map((row, index) => (
                 <TableRowItem
                   key={row.id || index}
