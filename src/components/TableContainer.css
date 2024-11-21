@@ -22,10 +22,11 @@ table {
 .table-container {
   overflow: auto;
   scroll-behavior: smooth;
-  
+
   /* scrollbar styles */
   &::-webkit-scrollbar {
     width: 0.4rem;
+    height: 0.4rem;
   }
   &::-webkit-scrollbar-track {
     background-color: transparent;
@@ -39,7 +40,7 @@ table {
   }
 }
 
-table.rounded-corners{
+table.rounded-corners {
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 0.5rem;
@@ -56,3 +57,24 @@ table.rounded-corners{
     border-radius: 0 0 0.5rem 0;
   }
 }
+
+.hover-effect:hover {
+  background-color: #acacac !important;
+}
+
+.custom-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.2rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  z-index: 1000;
+  white-space: nowrap;
+  /* top: 100%;
+  left: 50%;
+  transform: translateX(-50%); */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+

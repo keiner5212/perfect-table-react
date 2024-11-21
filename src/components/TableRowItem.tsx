@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from "react";
 import "./TableRowItem.css";
 import { TableRowType } from "./TableTypes";
 import { SlOptionsVertical } from "react-icons/sl";
+import TableCellWithTooltip from "./TableDataItem";
 
 const TableRowItem: FunctionComponent<
   {
@@ -17,7 +18,9 @@ const TableRowItem: FunctionComponent<
   indexed = false,
   index = 0,
 }) => {
-  function generateRamdomString(number: number) {
+  const [actionsVisible, setActionsVisible] = useState(false);
+
+  function generateRandomString(number: number) {
     let result = "";
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -27,7 +30,7 @@ const TableRowItem: FunctionComponent<
     }
     return result;
   }
-  const [actionsVisible, setActionsVisible] = useState(false);
+
   return (
     <tr
       className={
@@ -56,47 +59,34 @@ const TableRowItem: FunctionComponent<
           </span>
         </td>
       )}
-      {columns.map((column, index) => {
-        return (
-          <td
-            className={
-              hoverEffect && hoverType === "individual" ? "hover-effect" : ""
-            }
-            key={index + id + "table-item" + generateRamdomString(5)}
-            style={{
-              color: column.color,
-              textAlign: column.align,
-            }}
-            onClick={column.onClick}
-          >
-            <span
-              style={{
-                width: "100%",
-                textAlign: column.align || "left",
-              }}
-            >
-              {column.content.Label}
-            </span>
-          </td>
-        );
-      })}
+      {columns.map((column, idx) => (
+        <TableCellWithTooltip
+          key={id + generateRandomString(5)}
+          content={column.content.Label}
+          tooltip={column.tooltip || ""}
+          color={column.color}
+          align={column.align}
+          onClick={column.onClick}
+          hoverEffect={hoverEffect}
+          hoverType={hoverType}
+          index={idx}
+        />
+      ))}
       {actions.length > 0 && (
         <td
           className={hoverEffect && hoverType === "individual" ? "hover" : ""}
         >
           <span
             className="actions-button"
-            onClick={() => {
-              setActionsVisible(!actionsVisible);
-            }}
+            onClick={() => setActionsVisible(!actionsVisible)}
           >
             <SlOptionsVertical />
           </span>
           {actionsVisible && (
             <div className="actions">
-              {actions.map((action, index) => {
-                return <div key={index}>{action.label}</div>;
-              })}
+              {actions.map((action, idx) => (
+                <div key={idx}>{action.label}</div>
+              ))}
             </div>
           )}
         </td>

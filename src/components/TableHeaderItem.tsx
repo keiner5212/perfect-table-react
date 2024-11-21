@@ -1,8 +1,15 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "./TableHeaderItem.css";
 import { TableContentIndvidual, TableHeaderType } from "./TableTypes";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import TableContext from "./TableService";
+import { renderTooltip } from "./renderTooltip";
 
 const TableHeaderItem: FunctionComponent<
   {
@@ -13,7 +20,7 @@ const TableHeaderItem: FunctionComponent<
         dataB: TableContentIndvidual[]
       ) => number,
       mode: "asc" | "desc" | "none"
-    ) => void;
+    ) => 1 | -1 | 0;
     isSticky?: boolean;
   } & TableHeaderType
 > = ({
@@ -38,16 +45,54 @@ const TableHeaderItem: FunctionComponent<
   const { tableState, setTableState } = useContext(TableContext);
   const [sortMode, setSortMode] = useState<"asc" | "desc" | "none">("none");
   const [showTooltip, setShowTooltip] = useState(false);
+  const cellRef = useRef<HTMLTableCellElement | null>(null);
+  const [rect, setRect] = useState<DOMRect | null>(null);
+
+  useEffect(() => {
+    if (showTooltip && cellRef.current) {
+      setRect(cellRef.current.getBoundingClientRect());
+    }
+  }, [showTooltip]);
 
   const defaultSortMethod = (
     a: TableContentIndvidual[],
     b: TableContentIndvidual[]
   ) => {
-    return a[index].content.Label > b[index].content.Label
-      ? 1
-      : a[index].content.Label < b[index].content.Label
-      ? -1
-      : 0;
+    const getColumnValue = (item: TableContentIndvidual[], idx: number) => {
+      const value = item[idx]?.content?.Label;
+      return value ? value : "";
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const detectType = (value: any) => {
+      if (!value) return "string"; 
+      if (!isNaN(value)) return "number"; 
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) return "date"; 
+      return "string"; 
+    };
+
+    const valueA = getColumnValue(a, index);
+    const valueB = getColumnValue(b, index);
+
+    const typeA = detectType(valueA);
+    const typeB = detectType(valueB);
+
+    if (typeA === "number" && typeB === "number") {
+      return Number(valueA) > Number(valueB)
+        ? 1
+        : Number(valueA) < Number(valueB)
+        ? -1
+        : 0;
+    }
+
+    if (typeA === "date" && typeB === "date") {
+      const dateA = new Date(valueA);
+      const dateB = new Date(valueB);
+      return dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
+    }
+
+    return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
   };
 
   useEffect(() => {
@@ -74,11 +119,12 @@ const TableHeaderItem: FunctionComponent<
   };
 
   const styckyStyles: React.CSSProperties = isSticky
-    ? { position: "sticky", top: "-0.5px" }
+    ? { position: "sticky", top: "-0.1px" }
     : {};
 
   return (
     <th
+      ref={cellRef}
       className={`table-header-item ${classname} ${bold ? "bold" : ""} ${
         hoverEffect ? "hover-effect" : ""
       } ${sortable ? "has-sort" : ""}`}
@@ -97,9 +143,7 @@ const TableHeaderItem: FunctionComponent<
           <FaAngleDown color="black" />
         ) : null}
       </span>
-      {tooltip && showTooltip && (
-        <div className="custom-tooltip">{tooltip}</div>
-      )}
+      {renderTooltip(tooltip, showTooltip, rect)}
     </th>
   );
 };

@@ -1,7 +1,9 @@
 tr.table-row td {
   cursor: default;
+  z-index: 8;
   width: 3rem;
-  border: 0.0625rem solid rgba(0, 0, 0, 0.2);
+  border: none; 
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
 
   & span {
@@ -14,8 +16,4 @@ tr.table-row td {
     width: 100%;
     display: block;
   }
-}
-
-.hover-effect:hover {
-  background-color: #00000033 !important;
 }
