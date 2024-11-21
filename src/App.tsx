@@ -73,7 +73,7 @@ function App() {
       tooltip: columna.toString(),
     })),
     hoverEffect: true,
-    hoverType: "row",
+    hoverType: "individual",
     actions: [],
     id: fila[0].toString(),
   }))
@@ -87,9 +87,10 @@ function App() {
         maxHeight="200px"
         indexed={true}
         loading={false}
+        loader={null} // pass a ReactNode to display a custom loader
         indexColHeaderColor="#000"
         indexColHeaderBackgroundColor="#b7b7b7"
-        roundedCorners={true}
+        // roundedCorners={true}
       />
     </TableContextProvider>
   );
