@@ -15,6 +15,7 @@ interface TableCellWithTooltipProps {
   onClick?: (event: MouseEvent<HTMLTableCellElement>) => void;
   hoverEffect: boolean;
   hoverType?: "row" | "individual";
+  background?: string;
   index: number;
 }
 
@@ -25,6 +26,7 @@ const TableCellWithTooltip: FunctionComponent<TableCellWithTooltipProps> = ({
   align,
   onClick,
   hoverEffect,
+  background,
   hoverType = "row",
   index,
 }) => {
@@ -45,6 +47,7 @@ const TableCellWithTooltip: FunctionComponent<TableCellWithTooltipProps> = ({
         color,
         textAlign: align,
         position: "relative",
+        backgroundColor: background,
       }}
       className={
         hoverEffect && hoverType === "individual" ? "hover-effect" : ""
