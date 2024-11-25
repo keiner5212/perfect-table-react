@@ -47,6 +47,7 @@ const TableRowItem: FunctionComponent<
           style={{
             color: columns[0].color,
             textAlign: columns[0].align,
+            backgroundColor: columns[0].background,
           }}
         >
           <span
