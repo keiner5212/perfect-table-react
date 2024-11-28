@@ -7,7 +7,6 @@ import {
 } from "./TableTypes";
 import TableHeaderItem from "./TableHeaderItem";
 import TableRowItem from "./TableRowItem";
-import { SlOptionsVertical } from "react-icons/sl";
 
 /**
  * Table container component
@@ -25,8 +24,6 @@ interface TableContainerProps {
   loading?: boolean;
   loader?: ReactNode;
   maxHeight?: string;
-  indexColHeaderColor?: string;
-  indexColHeaderBackgroundColor?: string;
   roundedCorners?: boolean;
 }
 
@@ -38,8 +35,6 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
   loading,
   loader,
   maxHeight,
-  indexColHeaderColor,
-  indexColHeaderBackgroundColor,
   roundedCorners,
 }) => {
   const [rowsOrdered, setRowsOrdered] = useState<TableRowType[]>(rows);
@@ -93,8 +88,8 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
                 sortable={false}
                 align="center"
                 isSticky={isSticky}
-                color={indexColHeaderColor}
-                background={indexColHeaderBackgroundColor}
+                color={headers[0].color}
+                background={headers[0].background}
               />
             )}
             {headers.map((header, index) => (
@@ -109,22 +104,21 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
             {rows.some(
               (row) => row.actions !== null && (row.actions || []).length > 0
             ) && (
-              <TableHeaderItem
-                index={-1}
-                content={{ Label: "Actions" }}
-                sortActionInject={sortItemsHandler}
-                hoverEffect={headers[0].hoverEffect}
-                iconPosition={headers[0].iconPosition}
-                icon={<SlOptionsVertical />}
-                color={headers[0].color}
-                background={headers[0].background}
-                align={headers[0].align}
-                tooltip={"Actions"}
-                bold={headers[0].bold}
-                sortable={false}
-                isSticky={isSticky}
-              />
-            )}
+                <TableHeaderItem
+                  index={-1}
+                  content={{ Label: "Actions" }}
+                  sortActionInject={sortItemsHandler}
+                  hoverEffect={headers[0].hoverEffect}
+                  iconPosition={headers[0].iconPosition}
+                  color={headers[0].color}
+                  background={headers[0].background}
+                  align="center"
+                  tooltip={"Actions"}
+                  bold={headers[0].bold}
+                  sortable={false}
+                  isSticky={isSticky}
+                />
+              )}
           </tr>
         </thead>
         {loading ? (

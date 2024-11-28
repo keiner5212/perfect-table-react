@@ -87,9 +87,7 @@ function App() {
         maxHeight="200px"
         indexed={true}
         loading={false}
-        loader={null} // pass a ReactNode to display a custom loader
-        indexColHeaderColor="#000"
-        indexColHeaderBackgroundColor="#b7b7b7"
+        loader={null} 
         // roundedCorners={true}
       />
     </TableContextProvider>

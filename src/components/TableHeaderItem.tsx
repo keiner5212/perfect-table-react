@@ -132,9 +132,17 @@ const TableHeaderItem: FunctionComponent<
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        {icon && iconPosition === "left" && icon}
-        <span style={{ color, textAlign: align }}>{content.Label}</span>
-        {icon && iconPosition === "right" && icon}
+        <span style={{
+          color, textAlign: align,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "5px",
+        }}>
+          {icon && iconPosition === "left" && icon}
+          {content.Label}
+          {icon && iconPosition === "right" && icon}
+        </span>
         <span>
           {sortMode === "asc" ? (
             <FaAngleUp color="black" />

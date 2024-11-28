@@ -74,6 +74,14 @@ export interface TableHeaderType extends TableElementBase {
     ) => number;
 }
 
+export interface Action {
+    label: string;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    icon?: ReactNode;
+    background?: string;
+    color?: string;
+}
+
 /**
  * Represents a table row, including its columns and optional actions.
  */
@@ -93,5 +101,5 @@ export interface TableRowType {
      * - `icon`: Optional icon for the action.
      * - `onClick`: Callback function triggered when the action is clicked.
      */
-    actions?: Array<{ label: string; icon?: ReactNode; onClick: (element: TableContentIndvidual) => void }>;
+    actions?: Action[];
 }

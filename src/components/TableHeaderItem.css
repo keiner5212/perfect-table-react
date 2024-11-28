@@ -12,7 +12,6 @@ th.table-header-item {
     height: fit-content;
     width: fit-content;
     display: block;
-    background-color: #8d8d8d;
     border-radius: 0.5rem;
   }
 
@@ -25,12 +24,19 @@ th.table-header-item {
     user-select: none;
     padding-left: 0.3rem;
     padding-right: 0.3rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.2rem;
+
     & svg {
       height: 0.85rem;
       width: 0.85rem;
     }
+  }
+}
+
+th.table-header-item.has-sort {
+  & span:nth-child(2) {
+    background-color: #8d8d8d;
   }
 }
 

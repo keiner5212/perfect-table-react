@@ -1,8 +1,8 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import "./TableRowItem.css";
 import { TableRowType } from "./TableTypes";
-import { SlOptionsVertical } from "react-icons/sl";
 import TableCellWithTooltip from "./TableDataItem";
+import ActionsButton from "./ActionsButton";
 
 const TableRowItem: FunctionComponent<
   {
@@ -18,7 +18,6 @@ const TableRowItem: FunctionComponent<
   indexed = false,
   index = 0,
 }) => {
-    const [actionsVisible, setActionsVisible] = useState(false);
 
     function generateRandomString(number: number) {
       let result = "";
@@ -75,23 +74,7 @@ const TableRowItem: FunctionComponent<
           />
         ))}
         {actions.length > 0 && (
-          <td
-            className={hoverEffect && hoverType === "individual" ? "hover" : ""}
-          >
-            <span
-              className="actions-button"
-              onClick={() => setActionsVisible(!actionsVisible)}
-            >
-              <SlOptionsVertical />
-            </span>
-            {actionsVisible && (
-              <div className="actions">
-                {actions.map((action, idx) => (
-                  <div key={idx}>{action.label}</div>
-                ))}
-              </div>
-            )}
-          </td>
+          <ActionsButton actions={actions} hoverEffect={hoverEffect} hoverType={hoverType} />
         )}
       </tr>
     );
