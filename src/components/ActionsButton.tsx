@@ -33,7 +33,6 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
             setActionsVisible(false);
         }
     };
-    console.log(actions);
 
     useEffect(() => {
         document.addEventListener("click", handleOutsideClick as unknown as EventListener);
