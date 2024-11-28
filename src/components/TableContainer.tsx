@@ -122,7 +122,9 @@ export const TableContainer: FunctionComponent<TableContainerProps> = ({
           </tr>
         </thead>
         {loading ? (
-          <>{loader ?? <tr>Loading...</tr>}</>
+          <tbody><tr><td colSpan={headers.length + (indexed ? 1 : 0) +
+            (rows.some((row) => row.actions !== null && (row.actions || []).length > 0) ? 1 : 0)}
+          >{loader ?? "Loading..."}</td></tr></tbody>
         ) : (
           <tbody>
             {rowsOrdered.length > 0 ? (
