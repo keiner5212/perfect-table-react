@@ -9,7 +9,6 @@ interface ActionsButtonProps {
     hoverType?: "row" | "individual";
     color?: string;
     background?: string;
-    align?: "left" | "center" | "right";
 }
 
 const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
@@ -18,7 +17,6 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
     hoverType = "individual",
     color,
     background,
-    align,
 }) => {
     const buttonRef = useRef<HTMLSpanElement | null>(null);
     const [actionsVisible, setActionsVisible] = useState(false);
@@ -35,6 +33,7 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
             setActionsVisible(false);
         }
     };
+    console.log(actions);
 
     useEffect(() => {
         document.addEventListener("click", handleOutsideClick as unknown as EventListener);
@@ -70,6 +69,7 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
                             textAlign: "left",
                             border: "none",
                             backgroundColor: action.background,
+                            color: action.color,
                             cursor: "pointer",
                             display: "flex",
                             alignItems: "center",
@@ -88,7 +88,6 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
         <td className={hoverEffect && hoverType === "individual" ? "hover-effect" : ""}
             style={{
                 color,
-                textAlign: align,
                 position: "relative",
                 backgroundColor: background,
             }}

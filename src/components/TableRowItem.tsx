@@ -77,7 +77,6 @@ const TableRowItem: FunctionComponent<
           <ActionsButton actions={actions} hoverEffect={hoverEffect} hoverType={hoverType}
             background={columns[0].background}
             color={columns[0].color}
-            align={columns[0].align}
           />
         )}
       </tr>
