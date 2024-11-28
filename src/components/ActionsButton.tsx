@@ -7,12 +7,18 @@ interface ActionsButtonProps {
     actions: Action[];
     hoverEffect?: boolean;
     hoverType?: "row" | "individual";
+    color?: string;
+    background?: string;
+    align?: "left" | "center" | "right";
 }
 
 const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
     actions,
     hoverEffect = false,
     hoverType = "individual",
+    color,
+    background,
+    align,
 }) => {
     const buttonRef = useRef<HTMLSpanElement | null>(null);
     const [actionsVisible, setActionsVisible] = useState(false);
@@ -43,7 +49,7 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
             top: rect.bottom + 5,
             left: rect.left + rect.width / 2,
             transform: "translateX(-50%)",
-            backgroundColor: "#fff",
+            backgroundColor: "transparent",
             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
             borderRadius: "0.25rem",
             zIndex: 1000,
@@ -79,7 +85,14 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
     };
 
     return (
-        <td className={hoverEffect && hoverType === "individual" ? "hover-effect" : ""}>
+        <td className={hoverEffect && hoverType === "individual" ? "hover-effect" : ""}
+            style={{
+                color,
+                textAlign: align,
+                position: "relative",
+                backgroundColor: background,
+            }}
+        >
             <span
                 ref={buttonRef}
                 className="actions-button"
