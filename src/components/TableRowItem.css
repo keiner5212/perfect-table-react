@@ -17,3 +17,9 @@ tr.table-row td {
     display: block;
   }
 }
+
+tr.table-row.hover-effect:hover {
+  & td{
+    background-color: #acacac !important;
+  }
+}
