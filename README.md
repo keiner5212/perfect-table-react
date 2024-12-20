@@ -156,9 +156,17 @@ const defaultSortMethod = (
 
 ## Demo
 
-Here’s a preview of the table in action:
+Here’s some previews of the table in action:
 
 ![Perfect Table Demo](public/demo-image.png)
+
+------------------------------------------------------------------
+
+![Perfect Table Demo](public/demo-image1.png)
+
+------------------------------------------------------------------
+
+![Perfect Table Demo](public/demo-image2.png)
 
 ## Notes
 

@@ -23,6 +23,7 @@ table {
 .table-container {
   overflow: auto;
   scroll-behavior: smooth;
+  max-width: 90vw;
 
   /* scrollbar styles */
   &::-webkit-scrollbar {
