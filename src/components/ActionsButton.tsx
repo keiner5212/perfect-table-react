@@ -1,4 +1,4 @@
-import { FunctionComponent, MouseEvent, useState, useRef, useEffect } from "react";
+import { FunctionComponent, MouseEvent, useState, useRef, useEffect, CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { SlOptionsVertical } from "react-icons/sl";
 import { Action } from "./TableTypes";
@@ -42,9 +42,15 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
     const renderActionsList = () => {
         if (!actionsVisible || !rect) return null;
 
-        const actionsStyle: React.CSSProperties = {
+        const buttonHeight = 40;
+        const actionsHeight = actions.length * buttonHeight;
+
+        const topPosition = rect.bottom + 5;
+        const bottomPosition = window.innerHeight - rect.bottom;
+
+        const actionsStyle: CSSProperties = {
             position: "fixed",
-            top: rect.bottom + 5,
+            top: topPosition,
             left: rect.left + rect.width / 2,
             transform: "translateX(-50%)",
             backgroundColor: "transparent",
@@ -56,6 +62,14 @@ const ActionsButton: FunctionComponent<ActionsButtonProps> = ({
             minWidth: "150px",
             overflow: "hidden",
         };
+
+        if (actionsHeight + 10 > bottomPosition) {
+            actionsStyle.top = rect.top - actionsHeight - 10;  // Ajustar arriba si no cabe
+        }
+
+        if (topPosition + actionsHeight > window.innerHeight) {
+            actionsStyle.top = window.innerHeight - actionsHeight - 10;  // Ajuste para la parte inferior
+        }
 
         return createPortal(
             <div style={actionsStyle}>
